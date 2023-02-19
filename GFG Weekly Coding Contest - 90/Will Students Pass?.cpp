@@ -1,0 +1,31 @@
+
+
+class Solution {
+    public:
+        int minimumCost(int n, int m, int x, vector<int>& p, vector<vector<int>>& A) {
+            int ans = INT_MAX;
+            for(int mask=0; mask<(1<<n); mask++) {
+                vector<int> skills(m, 0);
+                long long price = 0;
+                for(int i=0; i<n; i++) {
+                    if(mask & (1<<i)) {
+                        for(int j=0; j<m; j++) {
+                            skills[j] += A[i][j];
+                        }
+                        price += p[i];
+                    }
+                }
+                bool flag = true;
+                for(int i=0; i<m; i++) {
+                    if(skills[i] < x) {
+                        flag = false;
+                        break;
+                    }
+                }
+                if(flag) {
+                    ans = min(ans, (int)price);
+                }
+            }
+            return (ans == INT_MAX) ? -1 : ans;
+        }
+};
